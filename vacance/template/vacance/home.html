@@ -1,0 +1,14 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head></head>
+<body>
+<h3>hello me!!!</h3>
+{% if user.is_authenticated %}
+    <p>Bienvenue, {{ user.username }}!</p>
+    <!-- Vous pouvez également utiliser {{ user.first_name }} et {{ user.last_name }} si disponibles -->
+{% else %}
+    <p>Connectez-vous pour afficher des informations utilisateur.</p>
+{% endif %}
+</body>
+</html>

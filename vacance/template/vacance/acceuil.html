@@ -1,0 +1,99 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/acc.css' %}">
+    <!--script type="text/javascript" src="{% static 'jv/script.js' %}"--><!--/script-->
+    <title>Navbar Example</title>
+</head>
+<body>
+  {% block content %}
+    <form action="{% url 'inscription' %}" method="post" style="border:1px solid #ccc" enctype="multipart/form-data">
+      {% csrf_token %}
+        <div class="container">
+            <h1>S'inscrire</h1>
+            <p>Veuillez remplir ce formulaire pour créer un compte.</p>
+            <hr>
+
+            <label for="email"><b>Email</b></label>
+            <input type="text" placeholder="Enter Email" name="email" value="{{email}}" required>
+            {% if erreur_email %}
+             <p style="color: red;">{{ erreur_email }}</p>
+            {% endif %}
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" value="{{psw}}" required>
+
+            <label for="psw-repeat"><b>Répéter Password</b></label>
+            <input type="password" placeholder="Répéter Password" name="psw_repeat" value="{{psw_repeat}}" required>
+
+            {% if erreur_password %}
+            <p style="color: red;">{{ erreur_password }}</p>
+            {% endif %}
+
+            <label for="nom" id="a"><b>Nom:</b></label>
+            <input type="text" id="nom" placeholder="Enter Nom" name="nom" value="{{nom}}" required>
+
+            <label for="prenom"><b>Prénom:</b></label>
+            <input type="text" id="prenom" placeholder="Enter Prenom" value="{{prenom}}" name="prenom" required>
+            <br>
+            <div>
+            
+              <label for="day"><b>Jour :</b></label>
+              <select id="day" name="day">
+                  {% for day in days %}
+                      <option value="{{ day }}" {% if day == jour %}selected{% endif %}>{{ day }}</option>
+                  {% endfor %}
+              </select>
+              
+              <label for="month"><b>Mois :</b></label>
+                <select id="month" name="month">
+                  {% for month in months %}
+                     <option value="{{ forloop.counter }}" {% if forloop.counter == mois %}selected{% endif %}>{{ month }}</option>
+                  {% endfor %}
+                </select>
+
+              <label for="year"><b>Année :</b></label>
+                <select id="year" name="year">
+                  {% for year in years %}
+                    <option value="{{ year }}" {% if year == annee %}selected{% endif %}>{{ year }}</option>
+                  {% endfor %}
+                </select>
+            </div> 
+            {% if erreur_date %}
+            <p style="color: red;">{{ erreur_date }}</p>
+            {% endif %} 
+            <br>
+            <label for="phone"><b>Téléphone:</b></label>
+            <input type="text" id="phone" placeholder="Enter Numbre Phone" name="phone" value="{{phone}}" required>
+            {% if erreur_phone %}
+            <p style="color: red;">{{ erreur_phone }}</p>
+            {% endif %}
+
+            
+
+            <label for="imageInput">Sélectionner une image :</label>
+            <br>
+            <input type="file" id="imageInput" name="image" accept="image/*">
+            {% if erreur_image %}
+            <p style="color: red;">{{ erreur_image }}</p>
+            {% endif %}
+            <br>
+            <label>
+                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Se souvenir de moi
+            </label>
+
+            <p>En créant un compte, vous acceptez nos <a href="#" style="color:dodgerblue">Conditions & confidentialité</a>.</p>
+
+            <div class="clearfix">
+                <button type="submit" class="signupbtn">S'inscrire</button>
+                <button type="button" class="cancelbtn">Annuler</button>
+                
+            </div>
+        </div>
+    </form>
+  {% endblock %}
+</body>
+</html>

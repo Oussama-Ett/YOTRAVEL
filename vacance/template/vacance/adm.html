@@ -1,0 +1,55 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Django blog</title>
+        <style>
+            table {
+                border-collapse: collapse;
+                /*width: 480px;*/
+                border: 2px solid #3498db;; /* Couleur de la bordure */
+            }
+    
+            th, td {
+                border: 1px solid #3498db; /* Couleur de la bordure des cellules */
+                padding: 10px;
+                width: 300px;
+                height: 120px;
+
+                text-align: left;
+            }
+    
+            th {
+                background-color: #f2f2f2;
+            }
+            #a{
+                max-width: 250px;
+                max-height: 250px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>table des utilisateurs</h1>
+        <table>
+                <tr>
+                    <th>Image</th>
+                    <th>Nom </th>
+                    <th>Prenom</th>
+                    <th>Birdthay</th>
+                </tr>
+                {% for utilisateur in utilisateurs %}
+                     {% if utilisateur.statut == "Client" %}
+
+                       <tr>
+                        <td><img src="{{ utilisateur.image_de_profil.url }}" alt="image" id="a"></td>
+                         <td>{{ utilisateur.first_name }}</td>
+                         <td>{{ utilisateur.last_name }}</td>
+                         <td>{{ utilisateur.date_Nai}}</td>
+                       </tr>
+                     {% endif %}
+
+                {% endfor %}
+
+            </table>
+
+    </body>
+</html>

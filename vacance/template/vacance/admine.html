@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+     <link rel="stylesheet" href="{% static 'css/style1.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+     <title>YOT</title>
+    </head>
+    <body>
+      
+    <div class="menu">
+     <ul>
+      <li class="profile"> 
+        <div class="img-box">
+          <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                </div>
+        <h2> YO TRAVEL  </h2>
+       </li>
+       <li>
+        <a href="#" class="active">
+          <i class="fas fa-home"></i>
+          <p> Dashbord</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashuti' %}">
+          <i class="fas fa-users"></i>
+          <p> Clients</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashCom' %}">
+          <i class="fas fa-clipboard-list"></i>
+          <p> Commandes</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashVoy' %}">
+          <i class="fas fa-plane"></i>
+          <p> Voyages</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashProm' %}">
+          <i class="fas fa-clipboard-list"></i>
+          <p> Promotions</p>
+        </a>
+       </li>
+       <li class="log-out">
+        <a href="{% url 'deconnexion' %}">
+          <i class="fas fa-sign-out"></i>
+          <p> Log out</p>
+        </a>
+       </li>
+
+     </ul>
+    </div>
+
+    <div class="content">
+
+      <div class="title"> 
+       <p> Dashbord</p>
+       <i class="fas fa-chart-bar"> </i>
+      </div>
+     <div class="data-info">
+        <div class="box">
+           <i class="fas fa-user"></i>
+           <div class="data">
+            <p> Client </p>
+            <span> {{ user_count }}</span>
+           </div>
+        </div>
+        <div class="box">
+          <i class="fas fa-plane"></i>
+          <div class="data">
+           <p> Voyage </p>
+           <span> {{ voy_count }}</span>
+          </div>
+       </div>
+       <div class="box">
+        <i class="fas fa-clipboard-list"></i>
+        <div class="data">
+         <p> Commande </p>
+         <span> {{ comd_count }}</span>
+        </div>
+     </div>
+     <div class="box">
+      <i class="fas fa-dollar-sign"></i>
+      <div class="data">
+       <p> revenue </p>
+       <span> {{ revenu }}</span>
+      </div>
+   </div>
+ 
+
+
+     </div>
+     <div class="title"> 
+      <p> Commandes</p>
+      <i class="fas fa-clipboard-list"> </i>
+     </div>
+     <table>
+         <thead>
+          <tr> 
+          <th> ID Voyage </th>
+         <th> ID Client </th> 
+         <th> Statut</th> 
+          </tr>
+         </thead>
+         {% for commande in dernieres_commandes %}
+         <tbody>
+          <td> {{ commande.id_Voyage }}</td>
+          <td> <span class="price"> {{ commande.id_User }} </span></td>
+          <td> <span class="stock"> {{ commande.get_statut_display }} </span></td>
+          </tbody>
+          {% endfor %}
+     </table>
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/details.css' %}">
+  <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+  <title>YOT</title>
+  <style>
+    
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      color:#0064a2;
+      background-color: #ffffffcf;
+    }
+    
+    li {
+      float: left;
+    }
+    
+    li a, .dropbtn {
+      display: inline-block;
+      color: solid #0064a2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: solid;
+    }
+    
+    li a:hover, .dropdown:hover .dropbtn {
+      background-color: #0064a2;
+      color: #f1f1f1;
+    }
+    
+    li.dropdown {
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #000000;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: rgb(255, 255, 255);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+    
+    .dropdown-content a:hover {background-color: #f1f1f1;color: #0064a2;}
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .Nav{
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+#ach,#fav{
+  height: 30px;
+  width: 30px;
+  
+}
+
+    </style>
+</head>
+<body>
+  <!--header-->
+    <div class="header">
+      <div class="logo" >
+        <a href="{% url 'home' %}">
+        <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+        YOTravel.com</div>
+      <div class="auth-buttons">
+        <a href="{% url 'Sec' %}"><button id="res">Se connecter</button></a>
+        <a href="{% url 'acceuil' %}"><button id="res">S'inscrire</button></a>
+      </div>
+    </div>
+
+     <!-- promotions -->
+     <div class="Nav">
+      <ul>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">promotions</a>
+          <div class="dropdown-content">
+            {% for prom in promos %}
+            <a href="{% url 'detailsp' prom.id_Voyage.id %}">{{ prom.pourcentage }}% {{prom}}</a>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">categories</a>
+          <div class="dropdown-content">
+            {% for cat in cats %}
+            <a href="{% url 'categories' cat %}">{{ cat }}</a>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+     <div class="scrolling-container">
+      <div class="scrolling-content">
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+
+      </div>
+    </div>
+ <!-- Destinations -->
+ <H3 id="tit">Explorer nos offres </H3>
+
+    <div class="main-container">
+        {% for voyage in voyages %}
+        <div class="travel-section">
+            <div class="destination-card"><a href="{% url 'details' voyage.id %}">
+                <img src="{{ voyage.image_de_voyage.url }}" name='image' title="image_de_voyage"  alt="image_de_voyage"></a>
+                <div id="icones"><a href="{% url 'Sec' %}">
+                  <img id='fav'  src="{% static 'images/coeur.png' %}" title="ajouter au favoris"  alt="ajouter au favoris"></a>
+                  <a href="{% url 'Sec' %}">
+                  <img id='ach'  src="{% static 'images/acheter.png' %}" title="reserver" alt="reserver"></a>
+              </div>
+              <div class="details">
+                <h3 class="titre">{{ voyage.titre }}</h3>
+                <h4 class="price">{{ voyage.prix }}</h4>
+                <p class="date">{{ voyage.date_debut }}  {{ voyage.date_fin }} </p>
+                <p class="description">{{ voyage.description }} </p>
+            </div>
+            </div>
+        </div> 
+      </div>
+    {% endfor %}
+    {% if not voyages %}
+    <div class="travel-section">
+      <h3>aucun voyage trouvé pour cette categorie .</h3>
+    </div>
+    {% endif %}
+      <div class="footer">
+        <div class="foot" >
+            <a href="{% url 'voyage' %}">
+            <img id='icof'  src="{% static 'images/avion.png' %}"></a>
+            YOTravel.com
+        </div>
+      </div>
+  </body>
+  </html>

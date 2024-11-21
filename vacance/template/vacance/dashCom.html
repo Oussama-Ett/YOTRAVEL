@@ -1,0 +1,275 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+     <link rel="stylesheet" href="{% static 'css/dashu.css' %}">
+     <link rel="stylesheet" type="text/css" href="{% static 'css/com.css' %}">
+     <script src="{% static 'js/com.js' %}"></script>
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+     <title>YOT</title>
+     <style>
+        #search-form {
+            display: flex;
+            align-items: center;
+            background-color: #123; /* Couleur de fond de la barre de recherche */
+            padding: 10px; /* Ajoute un peu d'espace autour de la barre de recherche */
+        }
+
+        #search-input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 8px;
+            flex-grow: 1;
+            color: #fff; /* Couleur du texte dans la barre de recherche */
+            background-color: #123; /* Couleur de fond de la zone de texte */
+        }
+
+        #search-button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+     table {
+        border-collapse: collapse;
+        /*width: 480px;*/
+        border: 2px solid #3498db; /* Couleur de la bordure */
+    }
+
+    th,td {
+        border: 1px solid #3498db; /* Couleur de la bordure des cellules */
+        padding: 10px;
+        width: 300px;
+        height: 100px;
+        color:black;
+        text-align: center;
+    }
+    th{
+        height: 60px;
+    }
+    
+    /*th {
+        background-color: #0080f0;
+    }*/
+    #a{
+        max-width: 150px;
+        max-height: 150px;
+    }
+    h1 {
+    margin-bottom: 20px; /* Ajoute un espace en bas de h1 pour séparer de la table */
+    color:black;
+    }
+    .cl_NEx{
+        color:red;
+    }
+    button{
+        color:#FFF;
+        background-color: red;
+        border: red solid;
+    }
+    #Mo{
+        background-color: green;
+        border: green solid;
+        border-radius: 5px;
+    }
+    #mod{
+        background-color: gray;
+        border: gray solid;
+        border-radius: 5px;
+    }
+    #list{
+        color:black;
+    }
+    </style>
+    </head>
+    <body>
+        <body>
+
+            <div class="menu">
+                <ul>
+                    <li class="profile"> 
+                        <div class="img-box">
+                          <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                                </div>
+                        <h2> YO TRAVEL  </h2>
+                       </li>
+                    <li>
+                        <a href="{% url 'admine' %}">
+                            <i class="fas fa-home"></i>
+                            <p> Dashbord</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashuti' %}">
+                            <i class="fas fa-users"></i>
+                            <p> Clients</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#"  class="active">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Commandes</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashVoy' %}">
+                            <i class="fas fa-plane"></i>
+                            <p> Voyages</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashProm' %}">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Promotions</p>
+                        </a>
+                    </li>
+                    <li class="log-out">
+                        <a href="{% url 'deconnexion' %}">
+                            <i class="fas fa-sign-out"></i>
+                            <p> Log out</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="content">
+                <h1>Table des commandes</h1>
+                <form id="search-form" action="{% url 'dashCom' %}" method="get">
+                    <input type="text" id="search-input" name="q1" placeholder="Rechercher par ID de commande">
+                    <button type="submit" id="search-button">Rechercher</button>
+                </form>
+                <br><br>
+            
+                {% if request.GET.q1 and not commande_trouvee %}
+                    <p class="cl_NEx">
+                        Aucune commande avec cet ID trouvé.
+                    </p>
+                {% endif %}
+            
+                {% if not request.GET.q1 or not commande_trouvee %}
+                    <table>
+                        <tr>
+                            <th>ID Commande</th>
+                            <th>ID Voyage</th>
+                            <th>ID Utilisateur</th>
+                            <th>Nombre de Personnes</th>
+                            <th>Prix Total</th>
+                            <th>Statut</th>
+                            <th>Date de Commande</th>
+                            <th>Virement</th>
+                            <th>Action</th>
+                        </tr>
+                        {% for commande in commandes %}
+                            <tr>
+                                <td>{{ commande.id }}</td>
+                                <td>{{ commande.id_Voyage }}</td>
+                                <td>{{ commande.id_User }}</td>
+                                <td>{{ commande.nbr_de_personnes }}</td>
+                                <td>{{ commande.prix_total }}</td>
+                                <td>{{ commande.get_statut_display }}</td>
+                                <td>{{ commande.date_de_commande }}</td>
+                                <td onclick="displayImageFullScreen('{{ commande.recu.url }}')">
+                                    <img src="{{ commande.recu.url }}" alt="Recu" id="a">
+                                </td>
+                                <td>
+                                    <button class="modifier-btn" id="Mo" data-commande-id="{{ commande.id }}">Modifier Statut<i class="fas fa-edit"></i></button>
+                                    <div class="modifier-form" id="modifier-form-{{ commande.id }}" style="display: none;">
+                                 <form method="post" action="{% url 'modifier_statut_commande' commande.id %}">
+                                 {% csrf_token %}
+                                 <label for="nouveau_statut">Nouveau Statut:</label>
+                                 <select name="nouveau_statut" id="list">
+                                 <option value="W" id="list">WAITING</option>
+                                 <option value="A" id="list">APPROVED</option>
+                                 <option value="C" id="list">CANCELED</option>
+                                 <option value="R" id="list">REJECTED</option>
+                                 </select>
+                                 <button type="submit" id="mod">Valider</button>
+                        </form>
+                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                    <div id="fullscreen-overlay">
+                        <span id="close-btn" onclick="closeFullscreen()">X</span>
+                        <img id="fullscreen-image" src="" alt="Fullscreen Image">
+                    </div>
+                {% endif %}
+            
+                {% if commande_trouvee %}
+                    <table>
+                        <tr>
+                            <th>ID Commande</th>
+                            <th>ID Voyage</th>
+                            <th>ID Utilisateur</th>
+                            <th>Nombre de Personnes</th>
+                            <th>Prix Total</th>
+                            <th>Statut</th>
+                            <th>Date de Commande</th>
+                            <th>Virement</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td>{{ commande_trouvee.id }}</td>
+                            <td>{{ commande_trouvee.id_Voyage }}</td>
+                            <td>{{ commande_trouvee.id_User }}</td>
+                            <td>{{ commande_trouvee.nbr_de_personnes }}</td>
+                            <td>{{ commande_trouvee.prix_total }}</td>
+                            <td>{{ commande_trouvee.get_statut_display }}</td>
+                            <td>{{ commande_trouvee.date_de_commande }}</td>
+                            <td onclick="displayImageFullScreen('{{ commande_trouvee.recu.url }}')">
+                                <img src="{{ commande_trouvee.recu.url }}" alt="Recu" id="a">
+                            </td>
+                            <td>
+                                <button class="modifier-btn" id="Mo" data-commande-id="{{ commande_trouvee.id }}">Modifier Statut<i class="fas fa-edit"></i></button>
+                                <div class="modifier-form" id="modifier-form-{{ commande_trouvee.id }}" style="display: none;">
+                             <form method="post" action="{% url 'modifier_statut_commande' commande_trouvee.id %}">
+                             {% csrf_token %}
+                             <label for="nouveau_statut">Nouveau Statut:</label>
+                             <select name="nouveau_statut" id="list">
+                             <option value="W" id="list">WAITING</option>
+                             <option value="A" id="list">APPROVED</option>
+                             <option value="C" id="list">CANCELED</option>
+                             <option value="R" id="list">REJECTED</option>
+                             </select>
+                             <button type="submit" id="mod">Valider</button>
+                           </form>
+                         </div>
+                            
+                            </td>
+                        </tr>
+                    </table>
+                    <div id="fullscreen-overlay">
+                        <span id="close-btn" onclick="closeFullscreen()">X</span>
+                        <img id="fullscreen-image" src="" alt="Fullscreen Image">
+                    </div>
+                {% endif %}
+            </div>
+            <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                    var modifierBtns = document.querySelectorAll(".modifier-btn");
+            
+                    modifierBtns.forEach(function(btn) {
+                        btn.addEventListener("click", function() {
+                            var commandeId = this.getAttribute("data-commande-id");
+                            var form = document.getElementById("modifier-form-" + commandeId);
+            
+                            if (form.style.display === "none" || form.style.display === "") {
+                                form.style.display = "block";
+                            } else {
+                                form.style.display = "none";
+                            }
+                        });
+                    });
+                });
+            </script>
+            <!-- Ajoutez votre script JavaScript ici -->
+            
+            </body>
+</html>            

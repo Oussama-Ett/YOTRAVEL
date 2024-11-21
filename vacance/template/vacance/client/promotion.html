@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/style3.css' %}">
+  <title>YOT</title>
+</head>
+<body>
+    <div class="header">
+      <div class="logo">YOTravel.com</div>
+      <div class="auth-buttons">
+        <button class="login-button">Se connecter</button>
+        <button class="signup-button">S'inscrire</button>
+      </div>
+    </div>
+  
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Destination">
+      <div class="date-inputs">
+        <div class="date-input-group">
+          <label for="check-in" class="date-label">Date de départ</label>
+          <input type="date" id="check-in" class="date-input" placeholder="Date de départ">
+        </div>
+        
+        <div class="date-input-group">
+          <label for="check-out" class="date-label">Date d'arrivée</label>
+          <input type="date" id="check-out" class="date-input" placeholder="Date d'arrivée">
+        </div>
+      </div>
+      <input type="number" class="room-input" placeholder="Rooms">
+      <button class="search-button">Recherche</button>
+    </div>
+ <!-- Destinations -->
+
+    <div class="main-container">
+        <div class="travel-section">
+          <div class="destination-card">
+            <img src="destination1.jpg" alt="Destination 1">
+            <h3>Destination 1</h3>
+            <p class="price">$500</p>
+          </div>
+      
+          <div class="destination-card">
+            <img src="destination2.jpg" alt="Destination 2">
+            <h3>Destination 2</h3>
+            <p class="price">$700</p>
+          </div>
+      
+          <!-- Add more destination cards as needed -->
+        </div>
+      </div>
+      
+  </body>
+  </html>

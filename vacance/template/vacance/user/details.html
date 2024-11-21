@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/details.css' %}">
+  <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+  <title>YOT</title>
+  <style>
+          #dec{
+        background-color: rgba(49, 56, 89, 0.825);
+        margin-bottom: 3px;
+       } 
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      color:#0064a2;
+      background-color: #ffffffcf;
+    }
+    
+    li {
+      float: left;
+    }
+    
+    li a, .dropbtn {
+      display: inline-block;
+      color: solid #0064a2;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: solid;
+    }
+    
+    li a:hover, .dropdown:hover .dropbtn {
+      background-color: #0064a2;
+      color: #f1f1f1;
+    }
+    
+    li.dropdown {
+      display: inline-block;
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #000000;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+    }
+    
+    .dropdown-content a {
+      color: rgb(255, 255, 255);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      text-align: left;
+    }
+    
+    .dropdown-content a:hover {background-color: #f1f1f1;color: #0064a2;}
+    
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    .Nav{
+  margin-top: 0px;
+  margin-bottom: 5px;
+}
+
+#ach,#fav{
+  height: 30px;
+  width: 30px;
+  
+}
+.container {
+  background-color: #fff;
+    width: 80%;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #0056b3;
+  text-decoration: underline;
+    text-align: center;
+}
+
+.form-group {
+  
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+#not{
+  color: #4a4a4a;
+  margin-top: -10px;
+}
+
+    </style>
+</head>
+<body>
+  <!--header-->
+  <div class="header">
+    <div class="logo" >
+      <a href="{% url 'voyage' %}">
+      <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+      YOTravel.com
+  </div>
+      <h4 id="nom">{{ user.first_name }}</h4><a href="{% url 'profile' %}">
+      <img id="imgprof" src="{{ user.image_de_profil.url }}" alt="{{ user.first_name }}"></a>
+
+  </div>
+
+
+     <!-- promotions -->
+     <div class="Nav">
+      <ul>
+        <li class="dropdown">
+          <a href="{% url 'reservations' %}" class="dropbtn">reservations</a>
+        </li>        <li class="dropdown">
+          <a href="{% url 'favoris' %}" class="dropbtn">favoris</a>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">promotions</a>
+          <div class="dropdown-content">
+            {% for prom in promos %}
+            <a href="{% url 'detailp' prom.id_Voyage.id %}">{{ prom.pourcentage }}% {{prom}}</a>
+            {% endfor %}
+          </div>
+        </li>
+        <li class="dropdown">
+          <a href="javascript:void(0)" class="dropbtn">categories</a>
+          <div class="dropdown-content">
+            {% for cat in cats %}
+            <a href="{% url 'categ' cat %}">{{ cat }}</a>
+            {% endfor %}
+          </div>
+        </li>
+      </ul>
+    </div>
+     <div class="scrolling-container">
+      <div class="scrolling-content">
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+        <img id=''  src="{% static 'images/avion.png' %}"></a>
+
+      </div>
+    </div>
+ <!-- Destinations -->
+ <H3 id="tit">details </H3>
+
+    <div class="main-container">
+  
+        <div class="travel-section">
+            <div class="destination-card">
+                <img src="{{ voyage.image_de_voyage.url }}" name='image' title="image_de_voyage"  alt="image_de_voyage">
+                <div id="icones">
+                  <a href="{% url 'favo' voyage.id %}">
+                  <img id='fav'  src="{% static 'images/coeur.png' %}" title="ajouter au favoris"  alt="ajouter au favoris"></a>
+                  <a href="#reservation">
+                  <img id='ach'  src="{% static 'images/acheter.png' %}" title="reserver" alt="reserver"></a>
+              </div>
+              <div class="details">
+                  
+                <h3 class="titre">{{ voyage.titre }}</h3>
+                <h4 class="price">{{ voyage.prix }}</h4>
+                <p class="date">{{ voyage.date_debut }}  {{ voyage.date_fin }} </p>
+                <p class="description">{{ voyage.description }} </p>
+            </div>
+            </div>
+        </div> <div class="travel-section">
+            <div class="details">
+                  
+                <h3>{{ voyage.titre }}</h3>
+                <h5 >categorie de voyage : {{ voyage.get_categorie_display }}</h5>
+                <h5 >prix par personne : {{ voyage.prix }} DH</hh5>
+                <h5 >date de depart : {{ voyage.date_debut }}</h5>
+                <h5 >date de retour : {{ voyage.date_fin }}</h5> 
+                <p><h5>description:</h5>  {{ voyage.description }} </p>
+            </div>
+        </div>
+          <div id='reservation' class="container">
+            <h2>Effectuer votre reservation en ligne</h2>
+            <form action="{% url 'reserver' %}" method="post" enctype="multipart/form-data" >
+              {% csrf_token %}
+                <div class="form-group">
+                    <label for="nom">Nom :</label>
+                    <input type="text" id="nom" readonly value=" {{ user.last_name }} {{ user.first_name }}" name="nom" required>
+                </div>
+                <div class="form-group">
+                  <label for="email">Email :</label>
+                  <input type="email" id="email" readonly value="{{ user.username }}" name="email" required>
+              </div>
+              <div class="form-group">
+                <label for="email">Voyage : {{ voyage.titre }}</label>
+                <input type="email" id="email" readonly style="display: none;" value="{{ voyage.id }}" name="idv" required>
+              </div> 
+                <div class="form-group">
+                    <label for="imag">Ajouter votre recu :</label>
+                    <input type="file" id="imag" name="imag" accept="image/*" required>
+                </div>
+                <p id ='not'>( effectuer le virement du mantant afficher vers ce RIB: FR7630001007941234567890185 et ajouter votre recu de paiment ce dessous .)</p>
+                <button type="submit">reserver maintenant</button>
+            </form>
+        </div>
+        </div>
+
+       <a href="{% url 'deconnexion' %}"><button id="dec" >deconnecter</button> </a>
+      <div class="footer">
+        <div class="foot" >
+            <a href="{% url 'voyage' %}">
+            <img id='icof'  src="{% static 'images/avion.png' %}"></a>
+            YOTravel.com
+        </div>
+      </div>
+  </body>
+  </html>

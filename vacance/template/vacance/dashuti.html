@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+     <link rel="stylesheet" href="{% static 'css/dashu.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+     <title>YOT</title>
+     <style>
+        #search-form {
+            display: flex;
+            align-items: center;
+            background-color: #123; /* Couleur de fond de la barre de recherche */
+            padding: 10px; /* Ajoute un peu d'espace autour de la barre de recherche */
+        }
+
+        #search-input {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 8px;
+            flex-grow: 1;
+            color: #fff; /* Couleur du texte dans la barre de recherche */
+            background-color: #123; /* Couleur de fond de la zone de texte */
+        }
+
+        #search-button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+     table {
+        border-collapse: collapse;
+        /*width: 480px;*/
+        border: 2px solid #3498db; /* Couleur de la bordure */
+    }
+
+    th,td {
+        border: 1px solid #3498db; /* Couleur de la bordure des cellules */
+        padding: 10px;
+        width: 300px;
+        height: 100px;
+        color:black;
+        text-align: center;
+    }
+    th{
+        height: 60px;
+    }
+    
+    /*th {
+        background-color: #0080f0;
+    }*/
+    #a{
+        max-width: 150px;
+        max-height: 150px;
+    }
+    h1 {
+    margin-bottom: 20px; /* Ajoute un espace en bas de h1 pour séparer de la table */
+    color:black;
+    }
+    .cl_NEx{
+        color:red;
+    }
+    button{
+        color:#FFF;
+        background-color: red;
+        border: red solid;
+        border-radius: 5px;
+    }
+    #mod{
+        background-color: gray;
+        border: gray solid;
+        border-radius: 5px;
+    }
+    </style>
+    </head>
+    <body>
+      
+    <div class="menu">
+     <ul>
+        <li class="profile"> 
+            <div class="img-box">
+              <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                    </div>
+            <h2> YO TRAVEL  </h2>
+           </li>
+       <li>
+        <a href="{% url 'admine' %}" >
+          <i class="fas fa-home"></i>
+          <p> Dashbord</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashuti' %}" class="active">
+          <i class="fas fa-users"></i>
+          <p> Clients</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashCom' %}">
+          <i class="fas fa-clipboard-list"></i>
+          <p> Commandes</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashVoy' %}">
+          <i class="fas fa-plane"></i>
+          <p> Voyages</p>
+        </a>
+       </li>
+       <li>
+        <a href="{% url 'dashProm' %}">
+          <i class="fas fa-clipboard-list"></i>
+          <p> Promotions</p>
+        </a>
+       </li>
+       <li class="log-out">
+        <a href="{% url 'deconnexion' %}">
+            <i class="fas fa-sign-out"></i>
+            <p> Log out</p>
+        </a>
+        </li>
+
+     </ul>
+    </div>
+    <div class="content">
+        <h1>Table des clients</h1>
+        <form id="search-form" action="{% url 'dashuti' %}" method="get">
+            <input type="text" id="search-input" name="q1" placeholder="Rechercher par Nom ou Prénom">
+            <button type="submit" id="search-button">Rechercher</button>
+        </form>
+        <br><br>
+        {% if request.GET.q1 and not utilisateur_trouve %}
+            <p class="cl_NEx">
+                Aucun utilisateur avec cet ID trouvé.
+            </p>
+        {% endif %}
+    
+        {% if not request.GET.q1 or not utilisateur_trouve %}
+            <table>
+                <tr>
+                    <th>Profil</th>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Date de naissance</th>
+                    <th>Action</th>
+                </tr>
+                {% for utilisateur in utilisateurs %}
+                    <tr>
+                        <td><img src="{{ utilisateur.image_de_profil.url }}" alt="image" id="a"></td>
+                        <td>{{ utilisateur.id }}</td>
+                        <td>{{ utilisateur.first_name }} {{ utilisateur.last_name }}</td>
+                        <td>{{ utilisateur.numero_de_telephone }}</td>
+                        <td>{{ utilisateur.date_Nai }}</td>
+                        <td>
+                            <form method="post" action="{% url 'supprimer_utilisateur' utilisateur.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Supprimer<i class="fas fa-trash"></i></button>
+                            </form>
+                            <br>
+                            <form id="form-utilisateur-{{ utilisateur.id }}" class="form-utilisateur" method="post" action="{% url 'modifier_statut_utilisateur' utilisateur.id %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="nouveau_statut" value="admin">
+                                <button type="button" id="mod" onclick="confirmerModification('{{ utilisateur.id }}')">Modifier Statut<i class="fas fa-edit"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    
+        
+    
+        {% if utilisateur_trouve %}
+            <table>
+                <tr>
+                    <th>Profil</th>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Numéro de téléphone</th>
+                    <th>Date de naissance</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td><img src="{{ utilisateur_trouve.image_de_profil.url }}" alt="image" id="a"></td>
+                    <td>{{ utilisateur_trouve.id }}</td>
+                    <td>{{ utilisateur_trouve.first_name }} {{ utilisateur_trouve.last_name }}</td>
+                    <td>{{ utilisateur_trouve.numero_de_telephone }}</td>
+                    <td>{{ utilisateur_trouve.date_Nai }}</td>
+                    <td>
+                        <form method="post" action="{% url 'supprimer_utilisateur' utilisateur_trouve.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Supprimer<i class="fas fa-trash"></i></button>
+                        </form>
+                        <br>
+                        <form id="form-utilisateur-{{ utilisateur_trouve.id }}" class="form-utilisateur" method="post" action="{% url 'modifier_statut_utilisateur' utilisateur_trouve.id %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="nouveau_statut" value="admin">
+                            <button type="button" id="mod" onclick="confirmerModification('{{ utilisateur_trouve.id }}')">Modifier Statut<i class="fas fa-edit"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+    <script>
+        function confirmerModification(utilisateurId) {
+        var confirmation = confirm("Voulez-vous modifier le statut en Admin ?");
+        if (confirmation) {
+        document.querySelector('#form-utilisateur-' + utilisateurId + ' input[name="nouveau_statut"]').value = 'admin';
+        document.getElementById('form-utilisateur-' + utilisateurId).submit();
+        }
+        // Sinon, ne rien faire
+}
+    </script>
+    </body>
+</html>

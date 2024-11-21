@@ -1,0 +1,304 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{% static 'css/dashu.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+    <title>YOT</title>
+    <style>
+        #search-form-promotion {
+            display: flex;
+            align-items: center;
+            background-color: #123; /* Couleur de fond de la barre de recherche */
+            padding: 10px; /* Ajoute un peu d'espace autour de la barre de recherche */
+        }
+
+        #search-input-promotion {
+            padding: 8px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 8px;
+            flex-grow: 1;
+            color: #fff; /* Couleur du texte dans la barre de recherche */
+            background-color: #123; /* Couleur de fond de la zone de texte */
+        }
+
+        #search-button-promotion {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+     table {
+        border-collapse: collapse;
+        /*width: 480px;*/
+        border: 2px solid #3498db; /* Couleur de la bordure */
+    }
+
+    th,td {
+        border: 1px solid #3498db; /* Couleur de la bordure des cellules */
+        padding: 10px;
+        width: 300px;
+        height: 100px;
+        color:black;
+        text-align: center;
+    }
+    th{
+        height: 60px;
+    }
+    
+    /*th {
+        background-color: #0080f0;
+    }*/
+    #a{
+        max-width: 150px;
+        max-height: 150px;
+    }
+    
+    h1 {
+    margin-bottom: 20px; /* Ajoute un espace en bas de h1 pour séparer de la table */
+    color:black;
+    }
+    .cl_NEx{
+        color:red;
+    }
+    button{
+        color:#FFF;
+        background-color: red;
+        border: red solid;
+        border-radius: 5px;
+    }
+    #B{
+      color:#FFF;
+      background-color: green;
+      border: green solid;
+      border-radius: 5px;
+    }
+    #formulaireVoyage {
+            display: none;
+    }
+    #formulaireVoyage label{
+       color: Black;
+    }
+    #affFo{
+        color:#FFF;
+        /*background-color: aqua;
+        border: aqua solid;*/
+        background-color: #123;
+        border: #123 solid;
+    }
+    #sub{
+        background-color: green;
+    }
+    #formulaireTablePromotion {
+            width: 35%;
+            border-collapse: collapse;
+    }
+    #formulaireTablePromotion th, #formulaireTablePromotion td {
+            padding: 10px;
+            border: #ddd;
+            text-align: left;
+            height:20px;
+    }
+    #pays{
+        color:black;
+    }
+    .dt{
+        color:black;
+    }
+    input{
+        color:black
+    }
+    select{
+        color:black;
+    }
+    textarea{
+        color:black;
+    }
+    option{
+        color :black;
+    }
+    label{
+        color :black;
+    }
+    </style>
+</head>
+<body>
+
+<div class="menu">
+    <ul>
+        <li class="profile"> 
+            <div class="img-box">
+              <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                    </div>
+            <h2> YO TRAVEL  </h2>
+           </li>
+        <li>
+            <a href="{% url 'admine' %}">
+                <i class="fas fa-home"></i>
+                <p> Dashbord</p>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashuti' %}">
+                <i class="fas fa-users"></i>
+                <p> Clients</p>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashCom' %}">
+                <i class="fas fa-clipboard-list"></i>
+                <p> Commandes</p>
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'dashVoy' %}">
+                <i class="fas fa-plane"></i>
+                <p> Voyages</p>
+            </a>
+        </li>
+        <li>
+            <a href="" class="active">
+                <i class="fas fa-clipboard-list"></i>
+                <p> Promotions</p>
+            </a>
+        </li>
+        <li class="log-out">
+            <a href="{% url 'deconnexion' %}">
+                <i class="fas fa-sign-out"></i>
+                <p> Log out</p>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div class="content">
+    <h1>Table des Promotions</h1>
+    <div id="promotions-container">
+        <button onclick="afficherFormulairePromotion()" id="affFo">Ajouter Promotion</button>
+        <br><br>
+        <div id="formulairePromotion" style="display: none;">
+            <form method="post" action="{% url 'ajouter_promotion' %}">
+                {% csrf_token %}
+                <table id="formulaireTablePromotion">
+                    <tr>
+                        <th><label for="titrePromotion">Titre :</label></th>
+                        <td><input type="text" id="titrePromotion" name="titrePromotion" required></td>
+                    </tr>
+        
+                    <tr>
+                        <th><label for="idVoyagePromotion">ID Voyage :</label></th>
+                        <td> <select id="idVoyagePromotion" name="idVoyagePromotion" required>
+                            {% for voyage in voyages %}
+                                <option value="{{ voyage.id }}">{{ voyage.titre }}</option>
+                            {% endfor %}
+                        </select></td>
+                    </tr>
+        
+                    <tr>
+                        <th><label for="pourcentagePromotion">Pourcentage :</label></th>
+                        <td><input type="number" id="pourcentagePromotion" name="pourcentagePromotion" required></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><input type="submit" value="Ajouter" id="B">
+                        <button type="button" onclick="annulerFormulairePromotion()">Annuler</button> </th>
+                    </tr>
+                </table>
+        
+            </form>
+            <br><br>
+        </div>
+    
+        <form id="search-form-promotion" action="{% url 'dashProm' %}" method="get">
+            <input type="text" id="search-input-promotion" name="q1" placeholder="Rechercher par titre de Promotion">
+            <button type="submit" id="search-button-promotion">Rechercher</button>
+        </form>
+    
+        <br><br>
+    
+        {% if request.GET.q1 and not promotion_trouve %}
+            <p class="cl_NEx">
+                Aucune promotion avec cet ID trouvée.
+            </p>
+        {% endif %}
+    
+        {% if not request.GET.q1 or not promotion_trouve %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Voyage</th>
+                    <th>Pourcentage</th>
+                    <th>Action</th>
+                </tr>
+                {% for promotion in promotions %}
+                    <tr>
+                        <td>{{ promotion.id }}</td>
+                        <td>{{ promotion.titre }}</td>
+                        <td>{{ promotion.id_Voyage }}</td>
+                        <td>{{ promotion.pourcentage }}</td>
+                        <td>
+                            <button onclick="modifierProm('{{ promotion.id }}')" id="B">Modifier<i class="fas fa-edit"></i></button>
+                            <br><br>
+                            <form method="post" action="{% url 'supprimer_promotion' promotion.id %}">
+                                {% csrf_token %}
+                                <button type="submit">Supprimer<i class="fas fa-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    
+        {% if promotion_trouve %}
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Pourcentage</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>{{ promotion_trouve.id }}</td>
+                    <td>{{ promotion_trouve.titre }}</td>
+                    <td>{{ promotion_trouve.pourcentage }}</td>
+                    <td>
+                        <button onclick="modifierProm('{{ promotion_trouve.id }}')" id="B">Modifier<i class="fas fa-edit"></i></button>
+                        <br><br>
+                        <form method="post" action="{% url 'supprimer_promotion' promotion_trouve.id %}">
+                            {% csrf_token %}
+                            <button type="submit">Supprimer<i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+        {% endif %}
+    </div>
+    
+    <script>
+        // Function to display the promotion form when clicking the "Ajouter Promotion" button
+        function afficherFormulairePromotion() {
+            var formulairePromotion = document.getElementById("formulairePromotion");
+            formulairePromotion.style.display = "block";
+        }
+        function annulerFormulairePromotion() {
+        var formulairePromotion = document.getElementById("formulairePromotion");
+        formulairePromotion.style.display = "none";
+        }
+        function modifierProm(promoId) {
+        // Rediriger vers la page ModifierVoyage avec l'ID du voyage
+        window.location.href = "/Modifierpromo/" + promoId + "/";
+    }
+    </script>
+    
+    <!-- Add your content for promotions here -->
+
+</div>
+
+</body>
+</html>

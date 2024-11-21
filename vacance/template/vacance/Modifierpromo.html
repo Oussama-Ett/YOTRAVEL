@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+     <link rel="stylesheet" href="{% static 'css/dashu.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+     <title>YOT</title>
+     <style>
+    /*th {
+        background-color: #0080f0;
+    }*/
+   
+    h1 {
+    margin-bottom: 20px; /* Ajoute un espace en bas de h1 pour séparer de la table */
+    color:black;
+    }
+    .cl_NEx{
+        color:red;
+    }
+    button{
+        color:#FFF;
+        background-color: red;
+        border: red solid;
+        border-radius: 5px;
+    }
+    #Mo{
+        background-color: green;
+        border: green solid;
+        border-radius: 5px;
+    }
+
+    #list{
+        color:black;
+    }
+    #formulairePromo {
+        width: 50%; /* Ajustez la largeur selon vos besoins */
+        margin: 0 auto;
+    }
+    #formulairePromo label{
+       color: Black;
+    }
+    #affFo{
+        color:#000;
+        background-color: aqua;
+        border: aqua solid;
+    }
+    #sub{
+        background-color: green;
+    }
+    #formulaireTable {
+            width: 60%;
+            border-collapse: collapse;
+    }
+    #formulaireTable th, #formulaireTable td {
+            padding: 10px;
+            border: #ddd;
+            text-align: left;
+            height:30px;
+    }
+    #pays{
+        color:black;
+    }
+    .dt{
+        color:black;    
+    }
+    input{
+        color:black
+    }
+    select{
+        color:black;
+    }
+    textarea{
+        color:black;
+    }
+    option,h1{
+        color :black;
+    }
+    #a{
+        max-width: 150px;
+        max-height: 150px;
+    }
+    form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    table {
+        border-collapse: collapse;
+        /*width: 480px;*/
+        border: 2px solid #3498db; /* Couleur de la bordure */
+    }
+    </style>
+    </head>
+    <body>
+        <body>
+
+            <div class="menu">
+                <ul>
+                    <li class="profile"> 
+                        <div class="img-box">
+                          <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                                </div>
+                        <h2> YO TRAVEL  </h2>
+                       </li>
+                    <li>
+                        <a href="{% url 'admine' %}">
+                            <i class="fas fa-home"></i>
+                            <p> Dashbord</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashuti' %}">
+                            <i class="fas fa-users"></i>
+                            <p> Clients</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashCom' %}">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Commandes</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashVoy' %}" >
+                            <i class="fas fa-plane"></i>
+                            <p> Voyages</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashProm' %}" class="active">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Promotions</p>
+                        </a>
+                    </li>
+                    <li class="log-out">
+                        <a href="{% url 'deconnexion' %}">
+                            <i class="fas fa-sign-out"></i>
+                            <p> Log out</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content">
+                <h1>Modifier Promotion</h1>
+                <div id="formulairePromo">
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <table id="formulaireTable">
+                        <tr>
+                        <th><label for="titrePromotion">Titre :</label></th>
+                        <td><input type="text" id="titrePromotion" name="titrePromotion" value="{{ promotion.titre }}" required></td>
+                        </tr>
+                        <tr>
+                        <th><label for="idVoyagePromotion">ID Voyage :</label></th>
+                        <td><input type="text" id="idVoyagePromotion" name="idVoyagePromotion" value="{{ promotion.id_Voyage }}" readonly></td>
+                        </tr>
+                        <tr>
+                        <th><label for="pourcentagePromotion">Pourcentage :</label></th>
+                        <td><input type="number" id="pourcentagePromotion" name="pourcentagePromotion" value="{{ promotion.pourcentage }}" required></td>
+                        </tr>
+                        <!-- Ajoutez d'autres champs ici si nécessaire -->
+                        <tr>
+                        <th colspan="2"><input type="submit" value="Modifier" id="Mo">
+                        <button type="button" onclick="annulerFormulaire()">Annuler</button></th>
+                        </tr>
+                    </table>
+                    </form>
+            </div>
+        </div>
+            <script>
+                // Ajoutez vos scripts JavaScript ici
+                function annulerFormulaire() {
+                    // Ajoutez le comportement pour annuler le formulaire
+                    window.location.href = "/dashProm/";
+                }
+            </script>
+        </body>
+</html>   

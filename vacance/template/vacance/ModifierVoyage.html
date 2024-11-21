@@ -1,0 +1,234 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+     <link rel="stylesheet" href="{% static 'css/dashu.css' %}">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+     <link rel="icon" type="images/gif" href="{% static 'images/avion.png' %}"> 
+     <title>YOT</title>
+     <style>
+    /*th {
+        background-color: #0080f0;
+    }*/
+   
+    h1 {
+    margin-bottom: 20px; /* Ajoute un espace en bas de h1 pour séparer de la table */
+    color:black;
+    }
+    .cl_NEx{
+        color:red;
+    }
+    button{
+        color:#FFF;
+        background-color: red;
+        border: red solid;
+        border-radius: 5px;
+    }
+    #Mo{
+        background-color: green;
+        border: green solid;
+        border-radius: 5px;
+    }
+    #mod{
+        background-color: gray;
+        border: gray solid;
+        border-radius: 5px;
+    }
+    #list{
+        color:black;
+    }
+    #formulaireVoyage {
+        width: 50%; /* Ajustez la largeur selon vos besoins */
+        margin: 0 auto;
+    }
+    #formulaireVoyage label{
+       color: Black;
+    }
+    #affFo{
+        color:#000;
+        background-color: aqua;
+        border: aqua solid;
+    }
+    #sub{
+        background-color: green;
+        border-radius: 5px;
+    }
+    #formulaireTable {
+            width: 90%;
+            border-collapse: collapse;
+    }
+    #formulaireTable th, #formulaireTable td {
+            padding: 10px;
+            border: #ddd;
+            text-align: left;
+            height:30px;
+    }
+    table {
+        border-collapse: collapse;
+        /*width: 480px;*/
+        border: 2px solid #3498db; /* Couleur de la bordure */
+    }
+    #pays{
+        color:black;
+    }
+    .dt{
+        color:black;    
+    }
+    input{
+        color:black
+    }
+    select{
+        color:black;
+    }
+    textarea{
+        color:black;
+    }
+    option{
+        color :black;
+    }
+    #a{
+        max-width: 150px;
+        max-height: 150px;
+    }
+    </style>
+    </head>
+    <body>
+        <body>
+
+            <div class="menu">
+                <ul>
+                    <li class="profile"> 
+                        <div class="img-box">
+                          <img id='ico'  src="{% static 'images/avion.png' %}"></a>
+                                </div>
+                        <h2> YO TRAVEL  </h2>
+                       </li>
+                    <li>
+                        <a href="{% url 'admine' %}">
+                            <i class="fas fa-home"></i>
+                            <p> Dashbord</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashuti' %}">
+                            <i class="fas fa-users"></i>
+                            <p> Clients</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashCom' %}">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Commandes</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashVoy' %}" class="active">
+                            <i class="fas fa-plane"></i>
+                            <p> Voyages</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'dashProm' %}">
+                            <i class="fas fa-clipboard-list"></i>
+                            <p> Promotions</p>
+                        </a>
+                    </li>
+                    <li class="log-out">
+                        <a href="{% url 'deconnexion' %}">
+                            <i class="fas fa-sign-out"></i>
+                            <p> Log out</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="content">
+                <h1>Modifier Voyage</h1>
+                <div id="formulaireVoyage">
+                
+                    <form method="post" action="{% url 'ModifierVoyage' id=voyage.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <table id="formulaireTable">
+                            <tr>
+                                <th><label for="titre">Titre :</label></th>
+                                <td><input type="text" id="titre" name="titre" value="{{ voyage.titre }}" required></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="pays">Pays :</label></th>
+                                <td>
+                                    <select id="pays" name="pays" required>
+                                        <option value="Maroc" {% if voyage.pays == "Maroc" %}selected{% endif %}>Maroc</option>
+                                        <option value="Turquie" {% if voyage.pays == "Turquie" %}selected{% endif %}>Turquie</option>
+                                        <option value="Thaïlande" {% if voyage.pays == "Thaïlande" %}selected{% endif %}>Thaïlande</option>
+                                        <option value="Malaisie" {% if voyage.pays == "Malaisie" %}selected{% endif %}>Malaisie</option>
+                                        <option value="Saudi Arabia" {% if voyage.pays == "Saudi Arabia" %}selected{% endif %}>Saudi Arabia</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="ville">Ville :</label></th>
+                                <td><input type="text" id="ville" name="ville" value="{{ voyage.ville }}" required></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="categorie">Catégorie :</label></th>
+                                <td>
+                                    <select id="categorie" name="categorie" required>
+                                        <option value="H" {% if voyage.categorie == "H" %}selected{% endif %}>HAJJ</option>
+                                        <option value="O" {% if voyage.categorie == "O" %}selected{% endif %}>OMRA</option>
+                                        <option value="A" {% if voyage.categorie == "A" %}selected{% endif %}>ASIE</option>
+                                        <option value="T" {% if voyage.categorie == "T" %}selected{% endif %}>TURQUIE</option>
+                                        <option value="M" {% if voyage.categorie == "M" %}selected{% endif %}>MAROC</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="dateDebut">Date de début :</label></th>
+                                <td><input type="date" id="dateDebut" name="dateDebut" class="dt" value="{{ voyage.date_debut|date:'Y-m-d' }}" required></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="dateFin">Date de fin :</label></th>
+                                <td><input type="date" id="dateFin" name="dateFin" class="dt" value="{{ voyage.date_fin|date:'Y-m-d' }}" required></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="prix">Prix :</label></th>
+                                <td><input type="text" id="prix" name="prix" value="{{ voyage.prix }}" required></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="description">Description :</label></th>
+                                <td><textarea id="description" name="description" rows="4" cols="50" required>{{ voyage.description }}</textarea></td>
+                            </tr>
+                            
+                            <tr>
+                                <th><label for="image">Image :</label></th>
+                            <td>
+                               {% if voyage.image_de_voyage %}
+                               <img src="{{ voyage.image_de_voyage.url }}" alt="image_de_voyage" id="a"><br><br>
+                               {% endif %}
+                               <input type="file" id="image" name="image" accept="image/*">
+                            </td>
+                            </tr>
+                            
+                            <tr>
+                                <td colspan="2">
+                                    <input type="submit" value="Modifier" id="sub">
+                                    <button type="button" onclick="annulerFormulaire()">Annuler</button>
+                                </td>
+                            </tr>
+                    <br><br>
+                </div>
+            </div>
+            <script>
+                // Ajoutez vos scripts JavaScript ici
+                function annulerFormulaire() {
+                    // Ajoutez le comportement pour annuler le formulaire
+                    window.location.href = "/dashVoy/";
+                }
+            </script>
+        </body>
+</html>    
